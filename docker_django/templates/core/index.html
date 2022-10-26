@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+<!--  -->
+{% load crispy_forms_tags %}
+<!--  -->
+{% block content %}
+<!--  -->
+{% if update_flag %}
+<form action="{% url 'update' note.id %}" method="post">
+  {% csrf_token %}
+  <!--  -->
+  {% if form %}
+  <!--  -->
+  {{ form|crispy }}
+  <!--  -->
+  {% endif %}
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+{% else %}
+<form action="{% url 'notes' %}" method="post">
+  {% csrf_token %}
+  <!--  -->
+  {% if form %}
+  <!--  -->
+  {{ form|crispy }}
+  <!--  -->
+  {% endif %}
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+{% endif %}
+<!--  -->
+{% if notes %}
+<!--  -->
+{% for note in notes %}
+<div>
+  <h2>{{ note.title }}</h2>
+  <p>{{ note.content }}</p>
+  <a href="{% url 'update' note.id %}" class="btn btn-warning"> Update </a>
+  <a href="{% url 'delete' note.id %}" class="btn btn-danger"> Delete </a>
+</div>
+
+{% endfor %}
+<!--  -->
+{% endif %}
+<!--  -->
+{% endblock content %}
